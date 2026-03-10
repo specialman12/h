@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>QR MEMBER</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#000;
+color:#39ff14;
+font-family:monospace;
+text-align:center;
+overflow-x:hidden;
+}
+
+/* MATRIX */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+/* CONTAINER */
+
+.container{
+width:90%;
+max-width:900px;
+margin:auto;
+padding:80px 0;
+}
+
+/* TITLE */
+
+h1{
+font-size:44px;
+letter-spacing:3px;
+margin-bottom:50px;
+text-shadow:0 0 15px #39ff14;
+}
+
+/* BUTTON */
+
+.btn{
+background:transparent;
+border:2px solid #39ff14;
+color:#39ff14;
+padding:14px 40px;
+font-size:18px;
+cursor:pointer;
+margin:20px;
+transition:.3s;
+box-shadow:0 0 10px #39ff14;
+}
+
+.btn:hover{
+background:#39ff14;
+color:#000;
+}
+
+/* MESSAGE */
+
+.message{
+border:2px solid #39ff14;
+padding:40px;
+margin:50px auto;
+max-width:650px;
+box-shadow:0 0 20px #39ff14;
+opacity:0;
+transform:scale(.9);
+transition:.5s;
+}
+
+.message.active{
+opacity:1;
+transform:scale(1);
+}
+
+.message h2{
+font-size:32px;
+margin-bottom:20px;
+}
+
+#text{
+font-size:20px;
+line-height:1.6;
+}
+
+.code{
+font-size:26px;
+margin-top:25px;
+display:none;
+text-shadow:0 0 10px #39ff14;
+}
+
+#followBtn{
+display:none;
+}
+
+/* SHOP */
+
+.shop-title{
+margin-top:80px;
+font-size:30px;
+letter-spacing:2px;
+text-shadow:0 0 15px #39ff14;
+}
+
+.products{
+display:flex;
+justify-content:center;
+gap:50px;
+margin-top:40px;
+}
+
+.product-card{
+border:2px solid #39ff14;
+padding:20px;
+width:240px;
+transition:.3s;
+}
+
+.product-card:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #39ff14;
+}
+
+.product-card img{
+width:100%;
+margin-bottom:10px;
+}
+
+.product-card a{
+text-decoration:none;
+color:#39ff14;
+font-size:20px;
+}
+
+.price{
+margin-top:5px;
+font-size:16px;
+}
+
+/* QR */
+
+.follow{
+margin-top:70px;
+}
+
+.qr{
+width:140px;
+margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+
+<h1>YOU FOUND A QR MEMBER</h1>
+
+<button class="btn" id="enterBtn">ENTER THE SYSTEM</button>
+
+<div class="message" id="messageBox">
+
+<h2 id="congrats"></h2>
+
+<p id="text"></p>
+
+<p class="code" id="discount"></p>
+
+<br>
+
+<a href="https://instagram.com" target="_blank">
+<button class="btn" id="followBtn">FOLLOW INSTAGRAM</button>
+</a>
+
+</div>
+
+<button class="btn">CLAIM YOUR REWARD</button>
+
+<h2 class="shop-title">SHOP THE COLLECTION</h2>
+
+<div class="products">
+
+<div class="product-card">
+
+<a href="https://yourstore.com/product1" target="_blank">
+<img src="shirt1.png">
+QR T-SHIRT
+</a>
+
+<div class="price">450 EGP</div>
+
+</div>
+
+<div class="product-card">
+
+<a href="https://ik.imagekit.io/ii3xamrwi/Copy%20of%20Copy%20of%20Copy%20of%20Copy%20of%20Blue%20Simple%20Lookings%20Logo%20(Facebook%20Cover)_20251206_142155_0000.png?updatedAt=1765023985508" target="_blank">
+<img src="shirt2.png">
+QR BACK PRINT
+</a>
+
+<div class="price">600 EGP</div>
+
+</div>
+
+</div>
+
+<div class="follow">
+
+<button class="btn">FOLLOW QR</button>
+
+<br>
+
+<img src="qr.png" class="qr">
+
+</div>
+
+</div>
+
+<script>
+
+/* MATRIX */
+
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+
+canvas.height=window.innerHeight;
+canvas.width=window.innerWidth;
+
+const letters="01QRSCANSYSTEM";
+const fontSize=16;
+const columns=canvas.width/fontSize;
+const drops=[];
+
+for(let x=0;x<columns;x++)drops[x]=1;
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#39ff14";
+ctx.font=fontSize+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+
+const text=letters[Math.floor(Math.random()*letters.length)];
+
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
+drops[i]=0;
+
+drops[i]++;
+
+}
+
+}
+
+setInterval(draw,33);
+
+/* TYPEWRITER */
+
+const messageText=
+"IF YOU'RE WATCHING THIS,\nYOU JUST FOUND A QR MEMBER.";
+
+let i=0;
+
+function typeMessage(){
+
+if(i<messageText.length){
+
+if(messageText.charAt(i)=="\n"){
+document.getElementById("text").innerHTML+="<br>";
+}else{
+document.getElementById("text").innerHTML+=messageText.charAt(i);
+}
+
+i++;
+
+setTimeout(typeMessage,40);
+
+}else{
+
+setTimeout(()=>{
+
+document.getElementById("discount").style.display="block";
+
+document.getElementById("discount").innerHTML=
+"USE CODE: QR10<br>TO GET 10% OFF<br>AND EXPLORE YOUR HIDDEN SURPRISES INSIDE THE BOX";
+
+},500);
+
+setTimeout(()=>{
+
+document.getElementById("followBtn").style.display="inline-block";
+
+},1500);
+
+}
+
+}
+
+/* ENTER SYSTEM */
+
+document.getElementById("enterBtn").onclick=function(){
+
+document.getElementById("messageBox").classList.add("active");
+
+document.getElementById("congrats").innerHTML="CONGRATULATIONS!";
+
+setTimeout(()=>{
+
+typeMessage();
+
+},500);
+
+}
+
+</script>
+
+</body>
+</html>
