@@ -13,7 +13,7 @@ box-sizing:border-box;
 }
 
 body{
-background:#000;
+background:black;
 color:#39ff14;
 font-family:monospace;
 text-align:center;
@@ -29,22 +29,39 @@ left:0;
 z-index:-1;
 }
 
-/* CONTAINER */
-
 .container{
-width:90%;
-max-width:900px;
+max-width:850px;
 margin:auto;
-padding:80px 0;
+padding:100px 20px;
 }
 
-/* TITLE */
-
 h1{
-font-size:44px;
-letter-spacing:3px;
-margin-bottom:50px;
+font-size:42px;
+margin-bottom:40px;
 text-shadow:0 0 15px #39ff14;
+}
+
+/* MESSAGE BOX */
+
+.message{
+border:2px solid #39ff14;
+padding:40px;
+box-shadow:0 0 20px #39ff14;
+margin-top:30px;
+display:none;
+}
+
+#text{
+font-size:20px;
+line-height:1.6;
+margin-top:20px;
+}
+
+.code{
+font-size:26px;
+margin-top:25px;
+display:none;
+text-shadow:0 0 10px #39ff14;
 }
 
 /* BUTTON */
@@ -56,108 +73,19 @@ color:#39ff14;
 padding:14px 40px;
 font-size:18px;
 cursor:pointer;
-margin:20px;
+margin-top:25px;
 transition:.3s;
 box-shadow:0 0 10px #39ff14;
 }
 
 .btn:hover{
 background:#39ff14;
-color:#000;
+color:black;
 }
 
-/* MESSAGE */
-
-.message{
-border:2px solid #39ff14;
-padding:40px;
-margin:50px auto;
-max-width:650px;
-box-shadow:0 0 20px #39ff14;
-opacity:0;
-transform:scale(.9);
-transition:.5s;
-}
-
-.message.active{
-opacity:1;
-transform:scale(1);
-}
-
-.message h2{
-font-size:32px;
-margin-bottom:20px;
-}
-
-#text{
-font-size:20px;
-line-height:1.6;
-}
-
-.code{
-font-size:26px;
-margin-top:25px;
+#storeBtn,
+#instaBtn{
 display:none;
-text-shadow:0 0 10px #39ff14;
-}
-
-#followBtn{
-display:none;
-}
-
-/* SHOP */
-
-.shop-title{
-margin-top:80px;
-font-size:30px;
-letter-spacing:2px;
-text-shadow:0 0 15px #39ff14;
-}
-
-.products{
-display:flex;
-justify-content:center;
-gap:50px;
-margin-top:40px;
-}
-
-.product-card{
-border:2px solid #39ff14;
-padding:20px;
-width:240px;
-transition:.3s;
-}
-
-.product-card:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #39ff14;
-}
-
-.product-card img{
-width:100%;
-margin-bottom:10px;
-}
-
-.product-card a{
-text-decoration:none;
-color:#39ff14;
-font-size:20px;
-}
-
-.price{
-margin-top:5px;
-font-size:16px;
-}
-
-/* QR */
-
-.follow{
-margin-top:70px;
-}
-
-.qr{
-width:140px;
-margin-top:20px;
 }
 
 </style>
@@ -171,61 +99,29 @@ margin-top:20px;
 
 <h1>YOU FOUND A QR MEMBER</h1>
 
-<button class="btn" id="enterBtn">ENTER THE SYSTEM</button>
+<button class="btn" id="enterBtn">
+ENTER THE SYSTEM
+</button>
 
 <div class="message" id="messageBox">
 
-<h2 id="congrats"></h2>
+<h2>CONGRATULATIONS</h2>
 
 <p id="text"></p>
 
 <p class="code" id="discount"></p>
 
-<br>
+<a href="https://yourstore.com" target="_blank">
+<button class="btn" id="storeBtn">
+Get the gift 
+</button>
+</a>
 
 <a href="https://instagram.com" target="_blank">
-<button class="btn" id="followBtn">FOLLOW INSTAGRAM</button>
+<button class="btn" id="instaBtn">
+FOLLOW INSTAGRAM
+</button>
 </a>
-
-</div>
-
-<button class="btn">CLAIM YOUR REWARD</button>
-
-<h2 class="shop-title">SHOP THE COLLECTION</h2>
-
-<div class="products">
-
-<div class="product-card">
-
-<a href="https://yourstore.com/product1" target="_blank">
-<img src="shirt1.png">
-QR T-SHIRT
-</a>
-
-<div class="price">450 EGP</div>
-
-</div>
-
-<div class="product-card">
-
-<a href="https://ik.imagekit.io/ii3xamrwi/Copy%20of%20Copy%20of%20Copy%20of%20Copy%20of%20Blue%20Simple%20Lookings%20Logo%20(Facebook%20Cover)_20251206_142155_0000.png?updatedAt=1765023985508" target="_blank">
-<img src="shirt2.png">
-QR BACK PRINT
-</a>
-
-<div class="price">600 EGP</div>
-
-</div>
-
-</div>
-
-<div class="follow">
-
-<button class="btn">FOLLOW QR</button>
-
-<br>
-
-<img src="qr.png" class="qr">
 
 </div>
 
@@ -233,7 +129,7 @@ QR BACK PRINT
 
 <script>
 
-/* MATRIX */
+/* MATRIX BACKGROUND */
 
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
@@ -273,9 +169,10 @@ drops[i]++;
 
 setInterval(draw,33);
 
+
 /* TYPEWRITER */
 
-const messageText=
+const messageText =
 "IF YOU'RE WATCHING THIS,\nYOU JUST FOUND A QR MEMBER.";
 
 let i=0;
@@ -296,20 +193,32 @@ setTimeout(typeMessage,40);
 
 }else{
 
+/* SHOW DISCOUNT */
+
 setTimeout(()=>{
 
 document.getElementById("discount").style.display="block";
 
 document.getElementById("discount").innerHTML=
-"USE CODE: QR10<br>TO GET 10% OFF<br>AND EXPLORE YOUR HIDDEN SURPRISES INSIDE THE BOX";
+"USE CODE: QR10<br>TO GET 10% OFF";
 
-},500);
+},400);
+
+/* SHOW STORE BUTTON */
 
 setTimeout(()=>{
 
-document.getElementById("followBtn").style.display="inline-block";
+document.getElementById("storeBtn").style.display="inline-block";
 
-},1500);
+},1200);
+
+/* SHOW INSTAGRAM */
+
+setTimeout(()=>{
+
+document.getElementById("instaBtn").style.display="inline-block";
+
+},2000);
 
 }
 
@@ -319,9 +228,7 @@ document.getElementById("followBtn").style.display="inline-block";
 
 document.getElementById("enterBtn").onclick=function(){
 
-document.getElementById("messageBox").classList.add("active");
-
-document.getElementById("congrats").innerHTML="CONGRATULATIONS!";
+document.getElementById("messageBox").style.display="block";
 
 setTimeout(()=>{
 
